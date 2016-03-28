@@ -2,9 +2,9 @@
 	define('CONF_SHOP_NAME', 'Powered by LegoSP');
 	define('CONF_SHOP_DESCRIPTION', 'Powered by LegoSP, powered by Lego SP');
 	define('CONF_SHOP_KEYWORDS', 'Powered by LegoSP, powered by Lego SP');
-	define('CONF_SHOP_URL', '');
-	define('CONF_GENERAL_EMAIL', '');
-	define('CONF_ORDERS_EMAIL', '');
+	define('CONF_SHOP_URL', 'dev.lego.ver');
+	define('CONF_GENERAL_EMAIL', 'redlineone86@gmail.com');
+	define('CONF_ORDERS_EMAIL', 'redlineone86@gmail.com');
 	define('CONF_ADMIN_FILE', 'admin.php');
 	define('CONF_ADMIN_FILE_ACCESS', 'access_admin.php');
 	define('CONF_SMTP', '0');
