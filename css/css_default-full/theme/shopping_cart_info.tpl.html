@@ -1,0 +1,17 @@
+{* shopping cart brief info *}
+
+<div class="icon">
+    <a href="./{if $smarty.const.CONF_CHPU}cart/{else}index.php?shopping_cart=yes{/if}">
+        <img id="scimg" src='./css/css_{$smarty.const.CONF_COLOR_SCHEME}/images/{if $shopping_cart_value}cart-full.png{else}cart-empty.png{/if}' alt="" class="png"/>
+    </a>
+</div>
+<div class="cart_info">
+
+    <div class="title">{$smarty.const.CART_TITLE}</div>
+    <div>
+        <i class="glyphicon glyphicon-shopping-cart"></i>
+        <i>{$smarty.const.CART_CONTENT_NOT_EMPTY}</i>
+        <span id="sci">{$shopping_cart_items}</span>
+    </div>
+    <span id="scs">{$shopping_cart_value_shown}</span>
+</div>

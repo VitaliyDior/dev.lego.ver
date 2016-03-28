@@ -1,0 +1,14 @@
+{function name=menu_tree}
+    {foreach name=foo from=$data item=row}
+        <li><a href="{$row.hurl}">{$row.name}</a>
+            {if count($row.subitems)>0}
+                <ul>
+                    {call name=menu_tree data=$row.subitems}
+                </ul>
+            {/if}
+        </li>
+    {/foreach}
+{/function}
+<ul id="menu{$menu_id}" class="menu">
+        {call name=menu_tree data=$menu_li}
+</ul>

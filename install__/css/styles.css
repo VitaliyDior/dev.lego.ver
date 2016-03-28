@@ -1,0 +1,162 @@
+html, body { 
+	font-size:0.9em; 
+	font-family:Trebuchet MS, Arial, Helvetica, sans-serif;
+}
+
+h2 {
+	color:#49545C;
+}
+a { color:#0099FF; }
+a:hover { color:#333333; }
+
+blockquote {
+	border: 1px solid silver;
+	background: #fff;
+}
+
+#wrapper {
+	width: 650px;
+	margin: auto;
+	padding: 0;
+}
+
+#header {
+	width: 590px; 
+	height: 90px;
+	margin: auto;
+	color:#0099FF;
+}
+
+#header h1 {
+	padding-top: 0px;
+	padding-left: 350px;
+}
+
+.logo {
+	position: absolute;
+	z-index: -1;
+	top: 10px;
+}
+
+.wizard{
+	margin: auto;
+	padding: auto;
+}
+
+.wizard-nav {
+	padding-left:22px;
+	padding-right:22px;
+	padding-top: 5px;
+	background:url(../images/panel.jpg) no-repeat ;
+	display:table;
+	margin-left:auto;
+	margin-right:auto;
+	overflow:hidden;
+	height:77px;
+}
+.wizard-nav a{
+	text-decoration: none;
+	height:65px;
+	line-height:65px;
+	width: 145px;
+	display: block;
+	float:left;
+	margin: 0;
+	text-align:center;
+	color:#E03E67;
+	font-size:1em;	
+	background:none;
+	font-weight:bold;
+	cursor: default;
+}
+.wizard-nav a.active { 	
+	background:url(../images/panel-active.jpg) repeat-x; 
+	color:#fff;
+	font-size:1.2em;
+}
+
+.wizardcontrols { margin-top:20px; margin-bottom:20px; overflow:hidden; }
+
+.wizardcontrols .wizardnext { 
+	width: 120px;  padding:2px; font-size:1.2em;
+}
+.wizardcontrols .wizardprev { width: 120px; padding:2px; font-size:1.2em; }
+
+.wizardpage img{ float:left; margin-right:12px; margin-bottom:12px; }
+
+.wizardpage { 
+	width:580px; 
+	margin:auto;
+}
+
+.wizardpage h2 {
+	margin-top: 0;
+}
+
+table{
+	margin-bottom:15px;
+}	
+
+th, td{
+	text-align:left;
+	font-size:0.9em;
+}
+
+th { padding-bottom:12px; font-size: 1em; }
+
+td.folder{
+	background:url(../images/folder-icon.png) no-repeat left center; 
+	line-height:16px;
+	padding-left:20px;
+}
+
+td.file{
+	background:url(../images/file-icon.png) no-repeat left center; 
+	line-height:16px;
+	padding-left:20px;
+}
+
+td.extension{
+	background:url(../images/setting-icon.png) no-repeat top left;
+	line-height:16px;
+	padding-left:20px;
+}
+
+.txt{ width:200px; border:solid 1px #246493; padding: 2px; }
+.txt:focus{ border:1px solid #FFD100; }
+
+#tutorial { 
+	background:url(../images/book.png) no-repeat left center;
+	line-height:16px;
+	padding-left:22px;
+    margin-right: 15px;
+}
+
+.required {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.license {
+	background: #EEEEEE;
+	width:550px;
+	height:250px;
+	line-height:20px;
+	margin-top: 10px;
+	padding: 5px 10px;
+	border: 1px solid silver;
+	overflow: auto;
+}
+
+#footer {
+	width: 600px; 
+	margin: auto;
+	border-top: solid 1px silver;
+	padding-top: 10px;
+	text-align:center;
+	color:#666666;
+}
+#footer a {
+	color:#0099FF;
+	text-decoration: none;
+}

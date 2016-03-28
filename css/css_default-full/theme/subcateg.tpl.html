@@ -1,0 +1,15 @@
+{if $subcategories_to_be_shown}
+<br>
+<div class="row">
+{foreach from=$subcategories_to_be_shown item=subc name=scat}
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <a href="{$subc.hurl}"><img src="{$subc.picture}" alt="{$subc.h1|escape}"></a>
+            <div class="caption text-center">
+                <a href="{$subc.hurl}">{$subc.name}</a>
+            </div>
+        </div>
+    </div>
+{/foreach}
+</div>
+{/if}

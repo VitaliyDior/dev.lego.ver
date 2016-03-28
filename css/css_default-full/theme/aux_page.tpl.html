@@ -1,0 +1,23 @@
+{* about view *}
+<div class="box">
+<div class="top">{$aux_title}</div>
+<div class="middle">
+ {if $sub_aux}
+    <div class="row">
+    {foreach from=$sub_aux item=aux}
+
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail text-center">
+            <a href="{$aux.hurl}"><img alt="{$aux.title}" src="{$aux.thumbnail}"></a>
+
+                <div class="caption">
+                    <a href="{$aux.hurl}">{$aux.title}</a>
+                </div>
+            </div>
+        </div>
+    {/foreach}
+    </div>
+ {/if}
+ {$auxiliary_page|default:$smarty.const.ERROR_CANT_FIND_REQUIRED_PAGE}	
+</div>
+</div>
