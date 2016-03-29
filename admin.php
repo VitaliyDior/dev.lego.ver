@@ -5,8 +5,14 @@
  * Copyright (c) 2012  All rights reserved.                  * 
  *                                                                           *
  ****************************************************************************/
+define('DEBUG',1);
+	if(DEBUG){
+		ini_set("display_errors", 1);
+		error_reporting(E_ALL);
+	}else{
+		ini_set("display_errors", 1);
+	}
 
-	ini_set("display_errors", "1");
 
  //main admin module
  session_start();
@@ -141,7 +147,8 @@ function __escape_string($_Data)
 	//set Smarty include files dir
 	$smarty->template_dir = "./core/admin_tmpl";
 	$smarty_mail->template_dir = "./css/css_".CONF_COLOR_SCHEME."/theme/mail";
-
+	if(DEBUG)
+		$smarty->error_reporting = E_ALL&~E_NOTICE;
 	require (ROOT_DIR.'/core/class/class.admin.php');
         $lego_admin = new adminClass();
         $lego= new lego_function();
