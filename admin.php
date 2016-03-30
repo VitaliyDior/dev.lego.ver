@@ -147,8 +147,11 @@ function __escape_string($_Data)
 	//set Smarty include files dir
 	$smarty->template_dir = "./core/admin_tmpl";
 	$smarty_mail->template_dir = "./css/css_".CONF_COLOR_SCHEME."/theme/mail";
-	if(DEBUG)
+	if(DEBUG){
+		$smarty->debugging = true;
 		$smarty->error_reporting = E_ALL&~E_NOTICE;
+	}
+
 	require (ROOT_DIR.'/core/class/class.admin.php');
         $lego_admin = new adminClass();
         $lego= new lego_function();
@@ -157,22 +160,22 @@ function __escape_string($_Data)
 
 	// several functions
 
-	function mark_as_selected($a,$b) //required for excel import
-	//returns " selected" if $a == $b
-	{
-		return !strcmp($a,$b) ? " selected" : "";
+//	function mark_as_selected($a,$b) //required for excel import
+//	//returns " selected" if $a == $b
+//	{
+//		return !strcmp($a,$b) ? " selected" : "";
+//
+//	} //mark_as_selected
 
-	} //mark_as_selected
 
-
-	function get_NOTempty_elements_count($arr) //required for excel import
-		//gets how many NOT NULL (not empty strings) elements are there in the $arr
-	{
-		$n = 0;
-		for ($i=0;$i<count($arr);$i++)
-			if (trim($arr[$i]) != "") $n++;
-		return $n;
-	} //get_NOTempty_elements_count
+//	function get_NOTempty_elements_count($arr) //required for excel import
+//		//gets how many NOT NULL (not empty strings) elements are there in the $arr
+//	{
+//		$n = 0;
+//		for ($i=0;$i<count($arr);$i++)
+//			if (trim($arr[$i]) != "") $n++;
+//		return $n;
+//	} //get_NOTempty_elements_count
 
 
 	//end of functions definition
@@ -215,7 +218,6 @@ function __escape_string($_Data)
 
 	$smarty->assign("admin_departments", $admin_departments);
 	$smarty->assign("admin_departments_count", $file_count);
-        if (isset($_GET['debug'])) $smarty->debugging = true;
 	//show Smarty output
 	$smarty->display("./core/admin_tmpl/index.tpl.html");
 #mamory();

@@ -15,26 +15,16 @@ var Script = function () {
            {"period": "2006 Q4", "licensed": 3245, "sorned": null},
            {"period": "2005 Q4", "licensed": 3289, "sorned": null}
       ];
-      Morris.Line({
-        element: 'hero-graph',
-        data: tax_data,
-        xkey: 'period',
-        ykeys: ['licensed', 'sorned'],
-        labels: ['Licensed', 'Off the road'],
-        lineColors:['#4ECDC4','#ed5565']
-      });
+      //Morris.Line({
+      //  element: 'hero-graph',
+      //  data: tax_data,
+      //  xkey: 'period',
+      //  ykeys: ['licensed', 'sorned'],
+      //  labels: ['Licensed', 'Off the road'],
+      //  lineColors:['#4ECDC4','#ed5565']
+      //});
 
-      Morris.Donut({
-        element: 'hero-donut',
-        data: [
-          {label: 'Jam', value: 25 },
-          {label: 'Frosted', value: 40 },
-          {label: 'Custard', value: 25 },
-          {label: 'Sugar', value: 10 }
-        ],
-          colors: ['#3498db', '#2980b9', '#34495e'],
-        formatter: function (y) { return y + "%" }
-      });
+
 
       Morris.Area({
         element: 'hero-area',

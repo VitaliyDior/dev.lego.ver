@@ -17,7 +17,15 @@
         $total = array_merge( $total, db_assoc( "select count(*) products,sum(Enabled) products_enabled from " . PRODUCTS_TABLE ) );
         // --- CATEGORIES ---
         $total = array_merge( $total, db_assoc( "select count(*) categories from " . CATEGORIES_TABLE ) );
+        $total = array_merge( $total, db_assoc( "select count(*) options from " . PRODUCT_OPTIONS_TABLE) );
+        $total = array_merge( $total, db_assoc( "select count(*) options from " . PRODUCT_OPTIONS_TABLE) );
+        $total = array_merge( $total, db_assoc( "select count(*) brands from " . BRAND_TABLE) );
+        $total = array_merge( $total, db_assoc( "select count(*) auxs from " . AUX_TABLE) );
+        $total = array_merge( $total, db_assoc( "select count(*) news from " . NEWS_TABLE) );
+        $total = array_merge( $total, db_assoc( "select count(*) pages from " . PAGES_TABLE) );
+        $total = array_merge( $total, db_assoc( "select SUM(result) votes from " . VOTES_CONTENT_TABLE) );
         //safemode
+
         $smarty->assign( "safemode", 0 );
         $smarty->assign( "totals", $total );
         unset( $total );

@@ -1,8 +1,83 @@
 {* default admin page*}
 {if $totals}
-    <div id="icon-index" class="icon32"><br/></div>
-    <h2>{$smarty.const.LINK_TO_HOMEPAGE}</h2>
-    {$smarty.const.ADMIN_WELCOME}
+    <div class="row">
+        <div class="col-lg-9 main-chart">
+            <div class="row mt">
+                <div class="col-md-4 col-sm-4 mb">
+                    <div class="darkblue-panel pn donut-chart">
+                        <div class="darkblue-header">
+                            <h5>
+                                Продажи за месяц
+                            </h5>
+                        </div>
+                        <div class="chart ">
+                            <div class="sparkline" data-type="line" data-resize="true" data-height="125" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4"
+                                 data-data="[200,135,667,333,526,996,564,123,890,464,655,200,135,667,333,526,996,564,123,890,464,655,200,135,667,333,526,996,564,123,890,464,655]">
+                                <canvas width="358" height="75" style="display: inline-block; width: 358px; height: 125px; vertical-align: top;"></canvas>
+                            </div>
+                            <p class="mt"><b>$ 17,980</b><br>Сумма продаж за месяц</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 mb">
+                    <div class="white-panel pn donut-chart">
+                        <div class="white-header">
+                            <h5>
+                                Лучше всего покупают
+                            </h5>
+                        </div>
+                       <div class="centered">
+
+                           <p>самый продаваемый товар</p>
+                           <p>купили 258 раз</p>
+                       </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 mb">
+                    <div class="white-panel pn donut-chart">
+                        <div class="white-header">
+                            <h5>
+                                Самая популярная категория
+                            </h5>
+                        </div>
+                        <div class="centered">
+                            <p>Чащего всего посещают категорю</p>
+                            <p><strong>Товары для имбецилов</strong></p>
+                            <p class="mt">523 просмотра</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt">
+                <div class="content-panel">
+                    <h4><i class="fa fa-angle-right"></i> Посещаемость</h4>
+                    <div class="panel-body">
+                        <div id="attendance" class="graph" style="position: relative;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt">
+                <div class="content-panel">
+                    <h4><i class="fa fa-angle-right"></i> Откуда приходят посетители</h4>
+                    <div class="panel-body">
+                        <div id="refferers" class="graph" style="position: relative;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 ds">
+
+
+        </div>
+    </div>
+
+
+
+
     <div class="panel panel-default">
         <div class="panel-heading">{$smarty.const.ADMIN_STAT_SHOP}</div>
         <div class="panel-body">
@@ -114,3 +189,36 @@
         </tbody>*}
     </table>
 {/if}
+{literal}
+<script>
+    Morris.Bar({
+    element: 'attendance',
+    data: [
+    {device: 'Январь', geekbench: 136},
+    {device: 'Февраль', geekbench: 137},
+    {device: 'Март', geekbench: 275},
+    {device: 'Апрель', geekbench: 380},
+    {device: 'Май', geekbench: 655},
+    {device: 'Июнь', geekbench: 1571}
+    ],
+    xkey: 'device',
+    ykeys: ['geekbench'],
+    labels: ['Поситителей'],
+    barRatio: 0.4,
+    xLabelAngle: 35,
+    hideHover: 'auto',
+    barColors: ['#ac92ec']
+    });
+    Morris.Donut({
+        element: 'refferers',
+        data: [
+            {label: 'Google.com', value: 25 },
+            {label: 'Yandex.ru', value: 40 },
+            {label: 'Vk.com', value: 25 },
+            {label: 'Facebook.com', value: 10 }
+        ],
+        colors: ['#3498db', '#2980b9', '#34495e'],
+        formatter: function (y) { return y + "%" }
+    });
+</script>
+{/literal}
