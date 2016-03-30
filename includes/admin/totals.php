@@ -45,6 +45,7 @@
         # $news = new SimpleXMLElement( $xml );
         $news_text = '<dl>';
         foreach( $xml->channel->item as $story ){
+            pre($story);
 
             $news_text .= '<dt><a target="_blank" href="' . $story->link . '" >' . $story->title . '</a></dt>' . "\n";
             $news_text .= "<dd>" . $story->description . "</dd>\n";

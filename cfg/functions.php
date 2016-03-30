@@ -7,6 +7,14 @@
      *                                                                           *
      ****************************************************************************/
 
+
+    function pre($v,$ex=false){
+        echo "<pre>";
+        print_r($v);
+        echo "</pre>";
+        if($ex) exit;
+
+    }
     function resize( $img, $w, $h, $newfilename ){
 
         //Check if GD extension is loaded
