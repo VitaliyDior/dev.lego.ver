@@ -6,7 +6,10 @@
 	define('DB_NAME', 'dev'); // database name
 	define('DB_CHARSET', 'utf8'); // database name
 	define('ADMIN_LOGIN', 'YWRtaW4='); //administrator's login
-	define('ADMIN_PASS', 'c4ca4238a0b923820dcc509a6f75849b'); //administrator's login
+	define('ADMIN_PASS', 'c4ca4238a0b923820dcc509a6f75849b'); //administrator's logi
+	define('SALT', "465adas555");
+	define('HOST', $_SERVER['HTTP_HOST']);
+
 	//database tables
 	include(dirname(__FILE__)."/tables.inc.php");
 ?>

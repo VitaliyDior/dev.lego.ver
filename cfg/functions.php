@@ -13,8 +13,33 @@
         print_r($v);
         echo "</pre>";
         if($ex) exit;
-
     }
+function getIP(){
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+        //check ip from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        //to check ip is pass from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+    function track_user(){
+        $ip = getIP();
+        $sql= "SELECT * FROM ".VISITOR_TABLE." WHERE date='".date("Y-m-d")."' AND ip='".$ip."'";
+        $res = db_query($sql) or die(db_error());
+        if($res->num_rows){
+            $sql= "UPDATE ".VISITOR_TABLE." SET count=count+1 WHERE date='".date("Y-m-d")."' AND ip='".$ip."'";
+            db_query($sql) or die(db_error());
+        }else{
+            $url = parse_url($_SERVER['HTTP_REFERER']);
+            $host = (isset($url['host']) && $url['host'])?$url['host']:'';
+            add_field(VISITOR_TABLE, array('date'=>date("Y-m-d"), 'ip'=>$ip, 'count'=>1,'referer'=>$host ));
+        }
+    }
+
     function resize( $img, $w, $h, $newfilename ){
 
         //Check if GD extension is loaded

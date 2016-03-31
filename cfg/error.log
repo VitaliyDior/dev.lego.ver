@@ -1,1 +1,2 @@
 
+[30.03.16 21:49] Error Missing argument 1 for geo(), called in C:\OpenServer\domains\dev.lego.ver\index.php on line 40 and defined (code: 2) in C:\OpenServer\domains\dev.lego.ver\cfg\functions.php (line: 22)

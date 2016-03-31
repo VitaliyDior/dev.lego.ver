@@ -1,4 +1,11 @@
 <?php
+define('DEBUG',1);
+if(DEBUG){
+    ini_set("display_errors", 1);
+    error_reporting(E_ALL);
+}else{
+    ini_set("display_errors", 1);
+}
 $ref = $_SERVER['HTTP_USER_AGENT'];
 if (!preg_match ("/yandex/i",$ref))  session_start();
 if (is_dir('./install/')) {header("Location: ./install/"); exit;}
@@ -62,6 +69,7 @@ else {
 db_connect(DB_HOST, DB_USER, DB_PASS) or die(db_error());
 db_query( "SET NAMES " . DB_CHARSET );
 
+track_user();
 currency();
 $currents = db_arAll("select * from " . CURRENCY_TABLE);
 $smarty->assign("current_all", $currents);

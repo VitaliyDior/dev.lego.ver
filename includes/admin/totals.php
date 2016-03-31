@@ -24,34 +24,35 @@
         $total = array_merge( $total, db_assoc( "select count(*) news from " . NEWS_TABLE) );
         $total = array_merge( $total, db_assoc( "select count(*) pages from " . PAGES_TABLE) );
         $total = array_merge( $total, db_assoc( "select SUM(result) votes from " . VOTES_CONTENT_TABLE) );
-        //safemode
-
+        $actions = db_arAll(' SELECT * FROM '.ACTION_TABLE.' WHERE 1 ORDER BY created DESC LIMIT 0,5');
+        $smarty->assign( "actions", $actions );
+        unset($actions);
         $smarty->assign( "safemode", 0 );
         $smarty->assign( "totals", $total );
+        $news = array();
         unset( $total );
         $xml = simplexml_load_file('http://legosp.net/core/core_rss_news.php');
-       # $news = new SimpleXMLElement( $xml );
-        $news_text='<dl>';
         foreach( $xml->channel->item as $story ){
-
-           $news_text.='<dt><a target="_blank" href="'. $story->link.'" >'.$story->title.'</a> <time>'.$story->pubDate.'</time></dt>'."\n";
-            $news_text .="<dd>". $story->description."</dd>\n";
-
+                $news[] =   $story;
         }
-        $news_text .= '</dl>';
-        $smarty->assign( 'news_text',$news_text);
-        unset($news_text);
         $xml = simplexml_load_file( 'http://legosp.net/core/core_rss.php' );
-        # $news = new SimpleXMLElement( $xml );
-        $news_text = '<dl>';
         foreach( $xml->channel->item as $story ){
-            pre($story);
-
-            $news_text .= '<dt><a target="_blank" href="' . $story->link . '" >' . $story->title . '</a></dt>' . "\n";
-            $news_text .= "<dd>" . $story->description . "</dd>\n";
-
+            $news[] =   $story;
         }
-        $news_text .= '</dl>';
-        $smarty->assign( 'products_text', $news_text );
-        unset( $news_text );
+        $smarty->assign( 'news', array_splice($news,0,-3));
+
+        $sql = "SELECT COUNT(*) visitors, MONTHNAME(date) `month` FROM ".VISITOR_TABLE ." GROUP BY MONTH(date) ORDER BY date DESC LIMIT 0,7";
+        $visitions = db_arAll($sql);
+        $smarty->assign( 'visitions', json_safe_encode($visitions));
+        $sql = "SELECT referer label, COUNT(*) value  FROM ".VISITOR_TABLE ." GROUP BY referer ORDER BY referer DESC LIMIT 0,7";
+
+        $refs = db_arAll($sql);
+        $rs = '[';
+        foreach ($refs as &$r ){
+            $rs .= "{label: '".$r['label']."', value:".(int)$r['value']." },";
+        }
+
+        $rs = substr($rs,0,strlen($rs)-1);
+        $rs .= ']';
+        $smarty->assign( 'referers', $rs);
     }

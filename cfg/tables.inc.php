@@ -28,5 +28,7 @@
 	@define('CATEGORIY_PRODUCT_TABLE', 'SS_category_product');
 	@define( 'MENU_TABLE', 'SS_menu' );
 	@define( 'MENU_EL_TABLE', 'SS_menu_element' );
-	
+	@define( 'ACTION_TABLE', 'SS_action' );
+	@define( 'VISITOR_TABLE', 'SS_visitors' );
+
 ?>
