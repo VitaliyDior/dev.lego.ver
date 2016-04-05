@@ -43,7 +43,8 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 		$cnt = db_r("SELECT count(*) FROM ".PRODUCTS_TABLE." WHERE categoryID=0");
 		$smarty->assign("products_in_root_category",$cnt);
 		//create a category tree
-               	$smarty->assign("categories", All_Categories(0,0,0));
+               	//$smarty->assign("categories", All_Categories(0,0,0));
+               	$smarty->assign("categories", getCategoriesTree());
                 unset($c);
 		//set main template
 		$smarty->assign("admin_sub_dpt", "catalog_categories.tpl.html");

@@ -1,0 +1,7 @@
+#CategoryTree li,  #sortableListsBase li { padding:0px 10px 10px 10px; color:#797979;font-size: 16px;font-weight: 600;  }
+#CategoryTree ul, #sortableListsBase li { padding: 10px 10px 10px 20px; }
+.fa.fa-plus.CategoryTree{cursor: pointer;color:green}
+.fa.fa-minus.CategoryTree{cursor: pointer;color:red}
+#sortableListsBase li .bg-info{position:relative; left:-10px }
+.cat-wrap .category-actions{display: none;transition: display 1s ease;}
+.cat-wrap:hover .category-actions{display: inline;}

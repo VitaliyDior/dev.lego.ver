@@ -9,7 +9,6 @@
 	define('ADMIN_PASS', 'c4ca4238a0b923820dcc509a6f75849b'); //administrator's logi
 	define('SALT', "465adas555");
 	define('HOST', $_SERVER['HTTP_HOST']);
-
+	define('DEBUG',1);
 	//database tables
 	include(dirname(__FILE__)."/tables.inc.php");
-?>

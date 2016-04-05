@@ -1,29 +1,11 @@
 <?php
-define('DEBUG',1);
-if(DEBUG){
-    ini_set("display_errors", 1);
-    error_reporting(E_ALL);
-}else{
-    ini_set("display_errors", 1);
-}
+
+
 $ref = $_SERVER['HTTP_USER_AGENT'];
 if (!preg_match ("/yandex/i",$ref))  session_start();
 if (is_dir('./install/')) {header("Location: ./install/"); exit;}
-function get_mtime() {
-    $mtime = microtime();
-    $mtime = explode(' ', $mtime);
-    $mtime = $mtime[1] + $mtime[0];
-    return $mtime;
-}
-function convert($size) {
-    $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
-    return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];;
-}
-function mamory() {
-    $memory = (!function_exists('memory_get_usage')) ? '' : round(memory_get_usage() / 1024 / 1024, 4) . 'MB';
-    echo "<div>" . $memory . "<div>";
-}
-$time1 = get_mtime();
+
+
 //core file
 ini_set("display_errors", "1");
 ini_set("magic_quotes_runtime", "0");
@@ -43,21 +25,28 @@ include_once ("./cfg/product.inc.php");
 include_once ("./cfg/shipping.inc.php");
 include_once ("./cfg/votes.inc.php");
 include_once ("./cfg/redirect.inc.php");
-//init Smarty
 
+if(DEBUG){
+    ini_set("display_errors", 1);
+    error_reporting(E_ALL);
+    $time1 = get_mtime();
+}else{
+    ini_set("display_errors", 0);
+}
+//init Smarty
 include ROOT_DIR . '/smarty/smarty.class.php';
 $smarty = new Smarty; //core smarty object
 $smarty_mail = new Smarty; //for e-mails
-#$smarty->register_block("print_price", "print_price");
-//set Smarty include files dir
 $smarty->template_dir = ROOT_DIR . "/css/css_" . CONF_COLOR_SCHEME . "/theme";
 $smarty_mail->template_dir = "./css/css_" . CONF_COLOR_SCHEME . "/theme/mail";
-//select a new language?
+
+
 if (isset($_GET["new_language"]) && $_SESSION["current_language"] != $_GET["new_language"]) {
     $_SESSION["current_language"] = $_GET["new_language"];
     header("Location: " . $_SERVER["HTTP_REFERER"]);
     exit;
 }
+
 //current language session variable
 if (!isset($_SESSION["current_language"]) || $_SESSION["current_language"] < 0 || $_SESSION["current_language"] > count($lang_list)) $_SESSION["current_language"] = 0; //set default language
 //include a language file
@@ -169,17 +158,16 @@ if (CONF_CURRENCY_AUTO == 1) {
 $smarty->assign("product_category_path", "");
 // -------------SET SMARTY VARS AND INCLUDE SOURCE FILES------------//
 if (isset($productID)) { //to rollout categories navigation table
-
   $categoryID = db_r('SELECT categoryID FROM ' . PRODUCTS_TABLE . ' WHERE productID=' . $productID);
   if (!$categoryID) include_once('./core/core_404.php');
 }  
 //set Smarty main page
-$f_cnt = file("./core/aux_pages/live_counts");
-$out_cnt = implode("", $f_cnt);
-$smarty->assign("live_counts", $out_cnt);
+
+$smarty->assign("live_counts", file_get_contents("./core/aux_pages/live_counts")); //load counters
 //assign core Smarty variables
 $smarty->assign("lang_list", $lang_list);
 $smarty->assign("lang_list_count", count($lang_list));
+
 if (isset($_SESSION["current_language"])) $smarty->assign("current_language", $_SESSION["current_language"]);
 // - following vars are used as hidden in the customer survey form
 $smarty->assign("categoryID", $categoryID);
@@ -223,5 +211,3 @@ else $go_back = "";
 $smarty->assign("go_back", $go_back);
 if (isset($_GET['debug'])) $smarty->debugging = true;
 $smarty->display("./css/css_" . CONF_COLOR_SCHEME . "/theme/index.tpl.html");
-
-?> 

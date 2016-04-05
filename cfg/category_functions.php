@@ -109,6 +109,27 @@ function All_Categories($parent, $level, $enabled = 1) {
     return $categories;
 }
 
+function getCategoriesTree($parent=0,$enabled=1,$level=0 ){
+        if($level==0) $categoriesTree = array();
+        $where = $enabled ? ' AND enabled=1':'';
+
+        $select_sql =  "SELECT categoryID, name, products_count, products_count_admin, parent, picture, hurl,enabled
+         FROM " . CATEGORIES_TABLE . "
+         WHERE  parent= $parent $where ORDER BY categoryID ASC";
+
+        $categoriesTree = db_arAll($select_sql) ;
+
+        if(!empty($categoriesTree)){
+
+            foreach($categoriesTree as $k=>$cat){
+                $categoriesTree[$k]['parent'] = $parent;
+                $categoriesTree[$k]['level'] = $level;
+                $categoriesTree[$k]['subitems'] = getCategoriesTree($cat['categoryID'],$enabled,$level+1 );
+            }
+            return  $categoriesTree;
+        }else return null;
+
+}
 
 function fillTheCList($parent, $level) //completely expand category tree
 {

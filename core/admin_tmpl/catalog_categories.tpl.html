@@ -1,3 +1,122 @@
+<link href="core/admin_tmpl/assets/css/categories_tree.css" rel="stylesheet">
+{literal}
+<script src="/core/admin_tmpl/assets/js/jquery-sortable-lists.min.js"></script>
+<script>
+
+
+	$(function()
+	{
+		$('.category-actions button').click(function(){
+
+			console.log($(this).data('action') );
+			console.log($(this).parent().data('categoryid') );
+			return false;
+
+		});
+		var options = {
+			placeholderCss: {'background-color': '#ff8'},
+			hintCss: {'background-color':'#bbf'},
+			onChange: function( cEl )
+			{
+				console.log( 'onChange' );
+			},
+			complete: function( cEl )
+			{
+				console.log( 'complete' );
+			},
+			isAllowed: function( cEl, hint, target )
+			{
+				// Be carefull if you test some ul/ol elements here.
+				// Sometimes ul/ols are dynamically generated and so they have not some attributes as natural ul/ols.
+				// Be careful also if the hint is not visible. It has only display none so it is at the previouse place where it was before(excluding first moves before showing).
+				if( target.data('module') === 'c' && cEl.data('module') !== 'c' )
+				{
+					hint.css('background-color', '#ff9999');
+					return false;
+				}
+				else
+				{
+					hint.css('background-color', '#99ff99');
+					return true;
+				}
+			},
+			opener: {
+				active: true,
+				as: 'html',  // if as is not set plugin uses background image
+				close: '<i class="fa fa-minus CategoryTree"></i>',  // or 'fa-minus c3',  // or './imgs/Remove2.png',
+				open: '<i class="fa fa-plus CategoryTree"></i>',  // or 'fa-plus',  // or'./imgs/Add2.png',
+				openerCss: {
+					'display': 'inline-block',
+					//'width': '18px', 'height': '18px',
+					'float': 'left',
+					'margin-left': '-35px',
+					'margin-right': '5px',
+					//'background-position': 'center center', 'background-repeat': 'no-repeat',
+					'font-size': '1.1em'
+				}
+			},
+			ignoreClass: 'clickable'
+		};
+		$('#CategoryTree').sortableLists( options );
+
+
+
+
+	});
+
+</script>
+{/literal}
+
+{function name=cats_tree}
+	{math assign="leval" equation="x + y" x=$leval y=1}
+	{foreach name=foo from=$data item=category}
+	<li>
+		<div class="cat-wrap">
+			<a href=""  class="categoryRef" data-categoryid="{$category.categoryID}" data-action="open">
+				{$category.name}
+			</a>
+			<span class="category-actions" data-categoryid="{$category.categoryID}">
+				<button data-action="delete" class="btn btn-danger btn-xs clickable"><i class="fa fa-trash-o clickable"></i></button>
+				<button data-action="edit" class="btn btn-primary btn-xs clickable"><i class="fa fa-pencil clickable"></i></button>
+				<button data-action="enable" data-status="{$category.enable}" class="clickable btn btn-success btn-xs"><i class="fa fa-check clickable"></i></button>
+			</span>
+			<span class="badge bg-info">{$category.categoryID}</span>
+		</div>
+		{if count($category.subitems)>0}
+		<ul>
+			{call name=cats_tree data=$category.subitems m=$m}
+		</ul>
+		{/if}
+	</li>
+	{/foreach}
+{/function}
+
+
+<h3><i class="fa fa-angle-right"></i> Категории</h3>
+<div class="row">
+	<div class="col-lg-3">
+		<div class="showback">
+			<ul  class="sTree2 listsClass" id="CategoryTree">
+				{call name=cats_tree data=$categories leval=0}
+			</ul>
+		</div>
+	</div>
+	<div class="col-lg-9">
+
+	</div>
+</div>
+
+
+
+<div style="height: 400px"></div>
+
+
+
+
+
+
+
+
 {* products and categories view *}
 <div id="icon-link-manager" class="icon32"><br /></div><h2>{$smarty.const.ADMIN_CATEGORIES}</h2>
 <br class="clear" />

@@ -13,17 +13,7 @@
         #$total["revenue_yesterday"] = show_price(db_r('SELECT sum( OC.Price * OC.Quantity ) FROM `'.ORDERS_TABLE.'` AS O INNER JOIN `'.ORDERED_CARTS_TABLE.'` AS OC USING ( orderID ) WHERE O.order_time >= (CURDATE()-1)  and O.order_time<CURDATE()'));
         $total = array_merge( $total, db_assoc( 'SELECT sum( OC.Price * OC.Quantity ) revenue_thismonth, count(DISTINCT(O.orderID)) orders_thismonth  FROM `' . ORDERS_TABLE . '` AS O INNER JOIN `' . ORDERED_CARTS_TABLE . '` AS OC USING ( orderID ) WHERE O.order_time >= DATE_SUB(CURRENT_DATE, INTERVAL (DAYOFMONTH(NOW())-1) DAY)' ) );
         $total["revenue"] = show_price( db_r( 'SELECT sum( OC.Price * OC.Quantity ) FROM `' . ORDERS_TABLE . '` AS O INNER JOIN `' . ORDERED_CARTS_TABLE . '` AS OC USING ( orderID )' ) );
-        // --- PRODUCTS ---
-        $total = array_merge( $total, db_assoc( "select count(*) products,sum(Enabled) products_enabled from " . PRODUCTS_TABLE ) );
-        // --- CATEGORIES ---
-        $total = array_merge( $total, db_assoc( "select count(*) categories from " . CATEGORIES_TABLE ) );
-        $total = array_merge( $total, db_assoc( "select count(*) options from " . PRODUCT_OPTIONS_TABLE) );
-        $total = array_merge( $total, db_assoc( "select count(*) options from " . PRODUCT_OPTIONS_TABLE) );
-        $total = array_merge( $total, db_assoc( "select count(*) brands from " . BRAND_TABLE) );
-        $total = array_merge( $total, db_assoc( "select count(*) auxs from " . AUX_TABLE) );
-        $total = array_merge( $total, db_assoc( "select count(*) news from " . NEWS_TABLE) );
-        $total = array_merge( $total, db_assoc( "select count(*) pages from " . PAGES_TABLE) );
-        $total = array_merge( $total, db_assoc( "select SUM(result) votes from " . VOTES_CONTENT_TABLE) );
+
         $actions = db_arAll(' SELECT * FROM '.ACTION_TABLE.' WHERE 1 ORDER BY created DESC LIMIT 0,5');
         $smarty->assign( "actions", $actions );
         unset($actions);

@@ -35,8 +35,9 @@ function getIP(){
             db_query($sql) or die(db_error());
         }else{
             $url = parse_url($_SERVER['HTTP_REFERER']);
-            $host = (isset($url['host']) && $url['host'])?$url['host']:'';
-            add_field(VISITOR_TABLE, array('date'=>date("Y-m-d"), 'ip'=>$ip, 'count'=>1,'referer'=>$host ));
+            if(isset($url['host']) && $url['host']!=='' && $url['host']!=$_SERVER['HTTP_HOST']){
+                add_field(VISITOR_TABLE, array('date'=>date("Y-m-d"), 'ip'=>$ip, 'count'=>1,'referer'=>$url['host'] ));
+            }
         }
     }
 
@@ -976,4 +977,18 @@ function getIP(){
         return $pass;
     }
 
-?>
+
+function get_mtime() {
+    $mtime = microtime();
+    $mtime = explode(' ', $mtime);
+    $mtime = $mtime[1] + $mtime[0];
+    return $mtime;
+}
+function convert($size) {
+    $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+    return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];;
+}
+function mamory() {
+    $memory = (!function_exists('memory_get_usage')) ? '' : round(memory_get_usage() / 1024 / 1024, 4) . 'MB';
+    echo "<div>" . $memory . "<div>";
+}

@@ -5,27 +5,13 @@
  * Copyright (c) 2012  All rights reserved.                  * 
  *                                                                           *
  ****************************************************************************/
-define('DEBUG',1);
-	if(DEBUG){
-		ini_set("display_errors", 1);
-		error_reporting(E_ALL);
-	}else{
-		ini_set("display_errors", 1);
-	}
+
 
 
  //main admin module
  session_start();
-function timeMeasure()
-{
-    list($msec, $sec) = explode(chr(32), microtime());
-    return ($sec+$msec);
-}
-define('TIMESTART', timeMeasure());//Определяем константу в которой будем хранить время старта
-function mamory() {
-    $memory = (!function_exists('memory_get_usage')) ? '' : round(memory_get_usage() / 1024 / 1024, 4) . 'MB';
-    echo "<div>" . $memory . "<div>";
-}
+
+
 
 
  
@@ -55,11 +41,7 @@ function deny_menedger($sub_departments,$dpt)
      }	
      return array($newarray,$deny);		 
    }
-   else return array($sub_departments,array());;
-   
-   
-   
- 
+   else return array($sub_departments,array());
 }
 
 
@@ -74,12 +56,8 @@ function add_department($admin_dpt)
 		$admin_departments[$j+1] = $admin_departments[$j];
 	$admin_departments[$i] = $admin_dpt;
 }
-
-function __escape_string($_Data)
-{	
-	return str_replace("'", "\'", str_replace('\\', '\\\\', stripslashes($_Data)));
-}       define('TMP_DIR', dirname ( __FILE__ ).'/core/cache/' );
-        define('ROOT_DIR', dirname ( __FILE__ ));  
+    define('TMP_DIR', dirname ( __FILE__ ).'/core/cache/' );
+    define('ROOT_DIR', dirname ( __FILE__ ));
 	include("./cfg/connect.inc.php");
 	include("./includes/database/mysql.php");
 	include("./cfg/general.inc.php");
@@ -93,8 +71,13 @@ function __escape_string($_Data)
 	include("./cfg/votes.inc.php");
 	include("./cfg/redirect.inc.php");
 
- 
-	
+if(DEBUG){
+	ini_set("display_errors", 1);
+	error_reporting(E_ALL);
+}else{
+	ini_set("display_errors", 0);
+}
+
 
 	if (!isset($_SESSION["log"]) || !isset($_SESSION["pass"])) //unauthorized
 	{
@@ -121,8 +104,7 @@ function __escape_string($_Data)
     
 
 	//init Smarty
-        if (DB_CHARSET=='cp1251')
-        define('SMARTY_RESOURCE_CHAR_SET', DB_CHARSET);
+
 	require 'smarty/smarty.class.php'; 
 	$smarty = new Smarty; //core smarty object
 	$smarty_mail = new Smarty; //for e-mails
@@ -201,6 +183,21 @@ function __escape_string($_Data)
 	$q = db_query("select count(*) from ".ORDERS_TABLE) or die (db_error());
 	$n = db_fetch_row($q);
 	$smarty->assign("new_orders_count", $n[0]);
+	$total=array();
+// --- PRODUCTS ---
+	$total = array_merge( $total, db_assoc( "select count(*) products,sum(Enabled) products_enabled from " . PRODUCTS_TABLE ) );
+	// --- CATEGORIES ---
+	$total = array_merge( $total, db_assoc( "select count(*) categories from " . CATEGORIES_TABLE ) );
+	$total = array_merge( $total, db_assoc( "select count(*) options from " . PRODUCT_OPTIONS_TABLE) );
+	$total = array_merge( $total, db_assoc( "select count(*) options from " . PRODUCT_OPTIONS_TABLE) );
+	$total = array_merge( $total, db_assoc( "select count(*) brands from " . BRAND_TABLE) );
+	$total = array_merge( $total, db_assoc( "select count(*) auxs from " . AUX_TABLE) );
+	$total = array_merge( $total, db_assoc( "select count(*) news from " . NEWS_TABLE) );
+	$total = array_merge( $total, db_assoc( "select count(*) pages from " . PAGES_TABLE) );
+	$total = array_merge( $total, db_assoc( "select SUM(result) votes from " . VOTES_CONTENT_TABLE) );
+
+
+
 
 	$admin_departments = array();
 
@@ -216,12 +213,11 @@ function __escape_string($_Data)
 
 	if (isset($sub)) $smarty->assign("current_sub", $sub);
 
+
+
+
+
 	$smarty->assign("admin_departments", $admin_departments);
 	$smarty->assign("admin_departments_count", $file_count);
 	//show Smarty output
 	$smarty->display("./core/admin_tmpl/index.tpl.html");
-#mamory();
-#echo '<p>Страница сгенерировалась за '.round(timeMeasure()-TIMESTART, 6).' сек.</p>';
-
-
-?>
