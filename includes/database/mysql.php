@@ -110,8 +110,10 @@
 
     function db_assoc( $s ){
         $result = db_query( $s );
-        if( $result )
-            return mysqli_fetch_assoc( $result ); else return false;
+        if( $result->num_rows > 0 )
+            return mysqli_fetch_assoc( $result );
+        else return false;
+
     }
 
     function db_assoc_q( $q ){

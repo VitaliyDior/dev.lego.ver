@@ -1,18 +1,25 @@
 <link href="core/admin_tmpl/assets/css/categories_tree.css" rel="stylesheet">
 {literal}
+<style>
+	#main-container{
+		min-height: 400px;
+		position: relative;
+	}
+</style>
 <script src="/core/admin_tmpl/assets/js/jquery-sortable-lists.min.js"></script>
 <script>
 
 
 	$(function()
 	{
-		$('.category-actions button').click(function(){
+		function block_container(selector){
+			$(selector).html('');
+			$(selector).append('<div class="load-blocker"><img class="loader" src="/core/admin_tmpl/images/hex-loader2.gif" alt="loading"></div>');
+		}
+		function unblock_container(selector){
+			$(selector).find('.load-blocker').remove();
+		}
 
-			console.log($(this).data('action') );
-			console.log($(this).parent().data('categoryid') );
-			return false;
-
-		});
 		var options = {
 			placeholderCss: {'background-color': '#ff8'},
 			hintCss: {'background-color':'#bbf'},
@@ -60,11 +67,33 @@
 		$('#CategoryTree').sortableLists( options );
 
 
+		$('.category-actions button,.categoryRef ').click(function(){
+			var catId = $(this).data('categoryid');
+			var action = $(this).data('action');
+			var request = 'id='+catId+"&action="+action;
+			block_container('#main-container');
+			$.post( 'admin.php?dpt=catalog&sub=categories', request, function(resp){
+
+				var data = JSON.parse(resp);
+				if(data.status==1){
+					$('#main-container').html(data.data);
+				}else{
+					$('#main-container').html(data.data);
+				}
+
+				unblock_container('#main-container');
+			});
+			return false;
+		});
+
+
+
 
 
 	});
 
 </script>
+
 {/literal}
 
 {function name=cats_tree}
@@ -72,13 +101,14 @@
 	{foreach name=foo from=$data item=category}
 	<li>
 		<div class="cat-wrap">
-			<a href=""  class="categoryRef" data-categoryid="{$category.categoryID}" data-action="open">
+			<span><i class="fa fa-bars"></i></span>
+			<a href=""  class="categoryRef clickable" data-categoryid="{$category.categoryID}" data-action="open">
 				{$category.name}
 			</a>
-			<span class="category-actions" data-categoryid="{$category.categoryID}">
-				<button data-action="delete" class="btn btn-danger btn-xs clickable"><i class="fa fa-trash-o clickable"></i></button>
-				<button data-action="edit" class="btn btn-primary btn-xs clickable"><i class="fa fa-pencil clickable"></i></button>
-				<button data-action="enable" data-status="{$category.enable}" class="clickable btn btn-success btn-xs"><i class="fa fa-check clickable"></i></button>
+			<span class="category-actions" >
+				<button  data-categoryid="{$category.categoryID}" data-action="delete" class="btn btn-danger btn-xs clickable"><i class="fa fa-trash-o clickable"></i></button>
+				<button   data-categoryid="{$category.categoryID}" data-action="edit" class="btn btn-primary btn-xs clickable"><i class="fa fa-pencil clickable"></i></button>
+				<button  data-categoryid="{$category.categoryID}" data-action="enable" data-status="{$category.enable}" class="clickable btn btn-success btn-xs"><i class="fa fa-check clickable"></i></button>
 			</span>
 			<span class="badge bg-info">{$category.categoryID}</span>
 		</div>
@@ -102,58 +132,12 @@
 		</div>
 	</div>
 	<div class="col-lg-9">
+		<div class="showback main-container" id="main-container">
 
+		</div>
 	</div>
 </div>
 
 
 
 <div style="height: 400px"></div>
-
-
-
-
-
-
-
-
-{* products and categories view *}
-<div id="icon-link-manager" class="icon32"><br /></div><h2>{$smarty.const.ADMIN_CATEGORIES}</h2>
-<br class="clear" />
-
-<form action="./{$smarty.const.CONF_ADMIN_FILE}" method="post" enctype="multipart/form-data">
-	<p><input type="button" onclick="location='./{$smarty.const.CONF_ADMIN_FILE}?dpt=catalog&sub=categories_edit';" class="button-primary" value="{$smarty.const.ADMIN_NEWS_ADD}" />&nbsp;&nbsp;<input type="submit" name="submit" class="button-primary" value="{$smarty.const.SAVE_BUTTON}" /></p>
-	<input type="hidden" name="dpt" value="catalog" />
-	<input type="hidden" name="sub" value="categories" />
-	<input type="hidden" name="categories_update" value="1" />
-	<table class="widefat" cellspacing="0">
-		<thead>
-			<tr>
-				<th style="width: 20px;"><a><span><strong>ID</strong></span></a></th>
-				<th style="width: 50px;"><a><span><strong>{$smarty.const.ADMIN_ON}</strong></span></a></th>
-				<th><a><span><strong>{$smarty.const.ADMIN_CATEGORIES_NAME}</strong></span></a></th>
-				<th style="width: 100px;"><a><span><strong>{$smarty.const.ADMIN_CATEGORY_COUNT_P}</strong></span></a></th>
-				<th style="width: 100px;"><a><span><strong>{$smarty.const.STRING_ACTIONS}</strong></span></a></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="alternate">
-				<td colspan="2">&nbsp;</td>
-				<td><a href="./{$smarty.const.CONF_ADMIN_FILE}?dpt=catalog&sub=products&categoryID=0" style="font-weight: bold;">{$smarty.const.ADMIN_CATEGORY_ROOT}</a></td>
-				<td align="center">({$products_in_root_category})</td>
-				<td>&nbsp;</td>
-			</tr>
-			{foreach from=$categories item=category}
-			<tr class="alternate" onMouseOver="this.style.background='#F5F5F5'" onMouseOut="this.style.background='#FFFFFF'">
-				<td>{$category.categoryID}</td>
-				<td align="center"><input type="checkbox" name="category_{$category.categoryID}" {if $category.enabled>0}checked{/if}></td>
-				<td>{section name=j loop=$category.level}&nbsp;&nbsp;&nbsp;&nbsp;{/section}<a href="./{$smarty.const.CONF_ADMIN_FILE}?dpt=catalog&sub=products&categoryID={$category.categoryID}"{if $category.level eq 0} style="font-weight: bold;"{/if}>{$category.name}</a></td>
-				<td align="center">({$category.products_count_admin})</td>
-				<td align="center"><a href="./{$smarty.const.CONF_ADMIN_FILE}?dpt=catalog&sub=categories_edit&c_id={$category.categoryID}"><img src="./images/backend/edit.png" alt="" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="./{$smarty.const.CONF_ADMIN_FILE}?dpt=catalog&sub=categories&c_id={$category.categoryID}&del"><img src="./images/backend/delete.png" alt="" /></a></td>
-			</tr>
-		       {/foreach}
-		</tbody>
-	</table>
-
-	<p><input type="button" onclick="location='./{$smarty.const.CONF_ADMIN_FILE}?dpt=catalog&sub=categories_edit';" class="button-primary" value="{$smarty.const.ADMIN_NEWS_ADD}" />&nbsp;&nbsp;<input type="submit" name="submit" class="button-primary" value="{$smarty.const.SAVE_BUTTON}" /></p>
-</form>

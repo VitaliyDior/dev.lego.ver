@@ -10,9 +10,64 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 {
 	die;
 }
+
+
+
+
 	//show new orders page if selected
 	if (!strcmp($sub, "categories"))
 	{
+		if(isset($_REQUEST['action'])){
+			if(isset($_POST['id']))
+				$cid =(int)$_POST['id'];
+
+
+				switch($_REQUEST['action']){
+					case 'open':
+						$html = $smarty->fetch('category_product_list.tpl.html');
+						aResp($html,1);
+						exit;
+						break;
+					case 'delete':
+						pre($_REQUEST);
+						exit;
+						break;
+					case 'edit':
+						$sql = "SELECT * FROM ".CATEGORIES_TABLE." WHERE categoryID=".$cid;
+
+						$category = db_assoc($sql) or die(db_error());
+						$smarty->assign('category',$category);
+						$html = $smarty->fetch('category_edit.tpl.html');
+						aResp($html,1);
+
+						exit;
+						break;
+					case 'enable':
+						pre($_REQUEST);
+						exit;
+						break;
+					case 'check_url':
+						$sql = "SELECT * FROM ".CATEGORIES_TABLE." WHERE hurl='".$_POST['url']."'";
+						$res = db_query($sql) or die(db_error());
+						if($res->num_rows>0){
+							aResp('<span class="help-block">Значение поля должно быть уникально!</span>',0);
+						}else{
+							aResp('',1);
+						}
+						break;
+					default:
+						aResp('<div class="alert alert-warning"><b>Вы пытаетесь применить неизвестное действие</b></div>',0);
+						break;
+				}
+//			}else{
+//				aResp('<div class="alert alert-danger"><b>Ошибка загрузки категории!</b></div>',0);
+//			}
+
+
+		}
+
+
+
            
 		if (isset($_POST["categories_update"]))
                 {               
@@ -50,4 +105,3 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 		$smarty->assign("admin_sub_dpt", "catalog_categories.tpl.html");
 	}
 
-?>

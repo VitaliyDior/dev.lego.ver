@@ -992,3 +992,7 @@ function mamory() {
     $memory = (!function_exists('memory_get_usage')) ? '' : round(memory_get_usage() / 1024 / 1024, 4) . 'MB';
     echo "<div>" . $memory . "<div>";
 }
+function aResp($data,$status=1){
+    echo json_safe_encode(array('status'=>$status,'data'=>$data));
+    exit;
+}
