@@ -117,4 +117,8 @@ $(document).ready(function() {
 //        cookie: 'dcjq-accordion-1',
         classExpand: 'dcjq-current-parent'
     });
+    $('.go-top').click(function(){
+        $(window).scrollTo(0,400);
+    });
+
 });

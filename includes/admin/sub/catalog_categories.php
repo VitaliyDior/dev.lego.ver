@@ -47,12 +47,12 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 						exit;
 						break;
 					case 'check_url':
-						$sql = "SELECT * FROM ".CATEGORIES_TABLE." WHERE hurl='".$_POST['url']."'";
+						$sql = "SELECT * FROM ".CATEGORIES_TABLE." WHERE hurl='".$_POST['url']."' AND categoryID!=".$cid;
 						$res = db_query($sql) or die(db_error());
 						if($res->num_rows>0){
 							aResp('<span class="help-block">Значение поля должно быть уникально!</span>',0);
 						}else{
-							aResp('',1);
+							aResp('<span class="help-block">Уникальное значение!</span>',1);
 						}
 						break;
 					default:
