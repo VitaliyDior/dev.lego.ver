@@ -8,18 +8,85 @@
                <input type="text" class="form-control" name="name" value="{$category.name}">
            </div>
            <div class="col-sm-2 text-center">
-               <div class="switch switch-square"
-                    data-on-label="<i class=' fa fa-check'></i>"
-                    data-off-label="<i class='fa fa-times'></i>">
-                   <input type="checkbox" checked=""  name="enabled" />
-               </div>
+               <input type="checkbox" checked="" data-toggle="switch" />
+           </div>
+           <div class="clear "></div>
+           <label class="col-sm-2 control-label mt">URL</label>
+           <div class="col-sm-8 mt">
+               <input type="text" class="form-control " id="hurl" disabled name="hurl" value="{$category.hurl}">
+               <span class="help-block">Двойной клик для редакирования этого поля.</span>
            </div>
        </div>
+
         <div class="form-group">
-            <label class="col-sm-2 col-sm-2 control-label">URL</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control " id="hurl" disabled name="hurl" value="{$category.hurl}">
-                <span class="help-block">Двойной клик для редакирования этого поля.</span>
+            <div class="col-sm-12">
+                <h5>SEO</h5>
+            </div>
+            <div class="clear"></div>
+            <label class="col-sm-2  control-label">Заголовок H1</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control " name="h1_title" value="{$category.h1}">
+            </div>
+            <label class="col-sm-2 control-label">META-TITLE</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control " name="meta_title" value="{$category.meta_title}">
+            </div>
+            <label class="col-sm-2  control-label mt">META-KEYWORDS</label>
+            <div class="col-sm-4 mt">
+                <input type="text" class="form-control " name="meta_keywords" value="{$category.meta_keywords}">
+            </div>
+            <label class="col-sm-2 control-label mt">META-DESCRIPTION</label>
+            <div class="col-sm-4 mt">
+                <input type="text" class="form-control " name="meta_keywords" value="{$category.meta_desc}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-6 ">
+                <h5>Показывать категорию</h5>
+            </div>
+            <div class="col-sm-6 ">
+                <h5>&nbsp;</h5>
+            </div>
+            <div class="clear"></div>
+            <div class="col-sm-6 ">
+                <label for="" class="radio-inline">
+                    <input type="radio" name="show_cat" value="any" checked>
+                    Всем
+                </label>
+                <label for="" class="radio-inline">
+                    <input type="radio" name="show_cat" value="registered">
+                    Только зарегистированным
+                </label>
+                <label for="" class="radio-inline">
+                    <input type="radio" name="show_cat" value="nobody">
+                    Никому
+                </label>
+            </div>
+            <div class="col-sm-6 ">
+                <label for="" class="radio-inline">
+                    <input type="radio" name="show_subcategory" value="1">
+                    Показывать товары из подкатегорий
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+              <h4> Обложка категории</h4>
+            </div>
+            <div class="clear"></div>
+            <div class="col-sm-6">
+                Для загрузки перетащите картинку сюда или кликните
+                <div class="drop-zone">
+
+                    <input type="file" name="cat_picture">
+
+                </div>
+
+            </div>
+            <div class="col-sm-6 ">
+                Подобрать картинку из Google
+
+
             </div>
         </div>
 
@@ -49,5 +116,16 @@
             });
         }
     });
+
+    $(function() {
+
+        // Tags Input
+        $(".tagsinput").tagsInput();
+
+        // Switch
+        $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+
+    });
+
 </script>
 {/literal}
