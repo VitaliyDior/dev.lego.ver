@@ -130,7 +130,7 @@ if(DEBUG){
 	$smarty->template_dir = "./core/admin_tmpl";
 	$smarty_mail->template_dir = "./css/css_".CONF_COLOR_SCHEME."/theme/mail";
 	if(DEBUG){
-		$smarty->debugging = true;
+	//	$smarty->debugging = true;
 		$smarty->error_reporting = E_ALL&~E_NOTICE;
 	}
 

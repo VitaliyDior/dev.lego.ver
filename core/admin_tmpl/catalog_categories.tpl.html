@@ -1,9 +1,8 @@
 <link href="core/admin_tmpl/assets/css/categories_tree.css" rel="stylesheet">
 <script src="core/admin_tmpl/assets/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script src="core/admin_tmpl/assets/js/jquery.tagsinput.js"></script>
-
-
-
+<link href="core/admin_tmpl/assets/css/dropzone.css" rel="stylesheet">
+<script src="core/admin_tmpl/assets/js/dropzone.js"></script>
 
 
 <script src="core/admin_tmpl/assets/js/bootstrap-switch.js"></script>
@@ -76,21 +75,27 @@
 		$('#CategoryTree').sortableLists( options );
 
 
-		$('.category-actions button,.categoryRef ').click(function(){
+		$('.category-actions button,.categoryRef, button.category-action ').click(function(){
 			var catId = $(this).data('categoryid');
 			var action = $(this).data('action');
 			var request = 'id='+catId+"&action="+action;
 			block_container('#main-container');
-			$.post( 'admin.php?dpt=catalog&sub=categories', request, function(resp){
+			$.ajax({
+				url: 'admin.php?dpt=catalog&sub=categories',
+				data: request,
+				async:true,
+				method:'post',
+				success: function (resp) {
 
-				var data = JSON.parse(resp);
-				if(data.status==1){
-					$('#main-container').html(data.data);
-				}else{
-					$('#main-container').html(data.data);
+					var data = JSON.parse(resp);
+					if (data.status == 1) {
+						$('#main-container').html(data.data);
+					} else {
+						$('#main-container').html(data.data);
+					}
+
+					unblock_container('#main-container');
 				}
-
-				unblock_container('#main-container');
 			});
 			return false;
 		});
@@ -130,8 +135,14 @@
 	{/foreach}
 {/function}
 
-
-<h3><i class="fa fa-angle-right"></i> Категории</h3>
+<div class="row">
+	<div class="col-md-6">
+		<h3><i class="fa fa-angle-right"></i> Категории</h3>
+	</div>
+	<div class="col-md-6 centered">
+		<h3><button id="add_cat"  class="category-action btn btn-success" data-action="add_new" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Добавить новую</button></h3>
+	</div>
+</div>
 <div class="row">
 	<div class="col-lg-3">
 		<div class="showback">

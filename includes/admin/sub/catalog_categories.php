@@ -17,9 +17,10 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 	//show new orders page if selected
 	if (!strcmp($sub, "categories"))
 	{
+
 		if(isset($_REQUEST['action'])){
-			if(isset($_POST['id']))
-				$cid =(int)$_POST['id'];
+			if(isset($_REQUEST['id']))
+				$cid =(int)$_REQUEST['id'];
 
 
 				switch($_REQUEST['action']){
@@ -46,6 +47,14 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 						pre($_REQUEST);
 						exit;
 						break;
+
+					case 'load_picture':
+						if(isset($_FILES['cat_picture'])&& $_FILES['cat_picture']['error']==0){
+
+						}
+						pre($_FILES);
+						exit;
+						break;
 					case 'check_url':
 						$sql = "SELECT * FROM ".CATEGORIES_TABLE." WHERE hurl='".$_POST['url']."' AND categoryID!=".$cid;
 						$res = db_query($sql) or die(db_error());
@@ -54,6 +63,11 @@ if(!defined('WORKING_THROUGH_ADMIN_SCRIPT'))
 						}else{
 							aResp('<span class="help-block">Уникальное значение!</span>',1);
 						}
+						break;
+					case 'add_new':
+						$html = $smarty->fetch('category_edit.tpl.html');
+						aResp($html,1);
+
 						break;
 					default:
 						aResp('<div class="alert alert-warning"><b>Вы пытаетесь применить неизвестное действие</b></div>',0);

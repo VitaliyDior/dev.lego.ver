@@ -8,7 +8,7 @@
 					<i class="fa fa-home"></i>
 					<span>Главная</span>
 				</a>
-			</li>{debug}
+			</li>
 			{section name=j loop=$admin_departments}
 				{if $admin_departments[j].id == "conf"}{assign var="ico" value="fa-wrench"}
 				{elseif $admin_departments[j].id == "system"}{assign var="ico" value="fa-cogs"}

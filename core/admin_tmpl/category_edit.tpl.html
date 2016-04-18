@@ -1,3 +1,4 @@
+
 <h3><i class="fa fa-angle-right"></i>Редактирование категориии {if $category} {$category.name} {else}новой{/if} </h3>
 <div class="form-panel">
     <form  class="form-horizontal style-form" action="" id="category_edit_form">
@@ -63,8 +64,8 @@
                 </label>
             </div>
             <div class="col-sm-6 ">
-                <label for="" class="radio-inline">
-                    <input type="radio" name="show_subcategory" value="1">
+                <label for="" class="checkbox-inline">
+                    <input type="checkbox" name="show_subcategory" value="1">
                     Показывать товары из подкатегорий
                 </label>
             </div>
@@ -74,26 +75,69 @@
               <h4> Обложка категории</h4>
             </div>
             <div class="clear"></div>
-            <div class="col-sm-6">
-                Для загрузки перетащите картинку сюда или кликните
-                <div class="drop-zone">
-
-                    <input type="file" name="cat_picture">
-
-                </div>
-
+            <div class="col-sm-6 centered">
+                <img src="/products_pictures/{if $category.picture}{$category.picture}{else}nophoto.jpg{/if}" alt="{$category.name}">
             </div>
-            <div class="col-sm-6 ">
-                Подобрать картинку из Google
-
-
+            <div class="col-sm-6">
+                <div class="dz-wrap">
+                    <div class="Dzone dz-clickable"  id="dropzone">
+                        Для загрузки перетащите картинку сюда или кликните
+                    </div>
+                </div>
             </div>
         </div>
+            <!--<div class="col-sm-6 hidden">-->
+                <!--Подобрать картинку из Google-->
+            <!--</div>-->
+        <div class="form-group">
+            <div class="col-sm-12">
+                <h4> Описание категории</h4>
+            </div>
+
+            <div class="col-sm-12">
+                <h5>Полное</h5>
+                <textarea class="description" name="description">{$category.description}</textarea>
+            </div>
+            <hr>
+            <div class="col-sm-12">
+                <h5>Краткое</h5>
+                <textarea class='about' name="about">{$category.about}</textarea>
+            </div>
+            <div class="col-sm-12">
+                <h5>Дополнительные параметры</h5>
+                <textarea style="width:100%" rows="5" class='about' name="params" placeholder=""> Параметр1=Значение1;Параметр2=значение2;  </textarea>
+            </div>
+        </div>
+        <button href="javascript:void(0)" class="btn btn-success category-action" data-action="save" >Сохранить</button>
 
     </form>
 </div>
 {literal}
+
 <script>
+    CKEDITOR.replace( 'description', {
+        "filebrowserBrowseUrl": '/core/ckeditor/plugins/elfinder/elfinder.html',
+        "contentsCss" : '/css/css_mobilnik/stylesheet/stylesheet.css',
+        "scayt_autoStartup": false
+    });
+    CKEDITOR.replace( 'about', {
+        filebrowserBrowseUrl : '/core/ckeditor/plugins/elfinder/elfinder.html',
+        contentsCss : '/css/css_mobilnik/stylesheet/stylesheet.css'
+    });
+
+$(document).ready(function(){
+
+    var myDropzone = new Dropzone("#dropzone", {
+        url: "admin.php?dpt=catalog&sub=categories&action=load_picture",
+        maxFilesize:3,
+        paramName:"cat_picture",
+        addRemoveLinks:'dictRemoveFile',
+        //clickable:1,
+        acceptedFiles:'image/*',
+    });
+});
+
+
     $(document).on('dblclick','#hurl',function(){
         $(this).removeAttr('disabled');
     });
