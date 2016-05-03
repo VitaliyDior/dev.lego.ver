@@ -21,15 +21,25 @@
         $smarty->assign( "totals", $total );
         $news = array();
         unset( $total );
-        $xml = simplexml_load_file('http://legosp.net/core/core_rss_news.php');
-        foreach( $xml->channel->item as $story ){
-                $news[] =   $story;
+        try{
+            if($xml = @simplexml_load_file('http://legosp.net/core/core_rss_news.php')){
+                foreach( $xml->channel->item as $story ){
+                    $news[] =   $story;
+                }
+            }else throw new Exception();
+
+            if($xml = @simplexml_load_file( 'http://legosp.net/core/core_rss.php' )){
+                foreach( $xml->channel->item as $story ){
+                    $news[] =   $story;
+                }
+            }else throw new Exception();
+
+            $smarty->assign( 'news', array_splice($news,0,-3));
+        }catch(Exception $e){
+            $smarty->assign( 'news', array('Нет соединенеия с сервером'));
         }
-        $xml = simplexml_load_file( 'http://legosp.net/core/core_rss.php' );
-        foreach( $xml->channel->item as $story ){
-            $news[] =   $story;
-        }
-        $smarty->assign( 'news', array_splice($news,0,-3));
+
+
 
         $sql = "SELECT COUNT(*) visitors, MONTHNAME(date) `month` FROM ".VISITOR_TABLE ." GROUP BY MONTH(date) ORDER BY date DESC LIMIT 0,7";
         $visitions = db_arAll($sql);

@@ -75,7 +75,8 @@
 		$('#CategoryTree').sortableLists( options );
 
 
-		$('.category-actions button,.categoryRef, button.category-action ').click(function(){
+		$(document).on('click','.category-actions button,.categoryRef, button.category-action', function(){
+//		$('.category-actions button,.categoryRef, button.category-action').click(function(){
 			var catId = $(this).data('categoryid');
 			var action = $(this).data('action');
 			var request = 'id='+catId+"&action="+action;

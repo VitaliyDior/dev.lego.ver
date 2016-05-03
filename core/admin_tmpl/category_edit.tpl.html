@@ -94,12 +94,12 @@
                 <h4> Описание категории</h4>
             </div>
 
-            <div class="col-sm-12">
+            <div class="col-sm-12 mb">
                 <h5>Полное</h5>
                 <textarea class="description" name="description">{$category.description}</textarea>
             </div>
             <hr>
-            <div class="col-sm-12">
+            <div class="col-sm-12 mb">
                 <h5>Краткое</h5>
                 <textarea class='about' name="about">{$category.about}</textarea>
             </div>
@@ -108,7 +108,7 @@
                 <textarea style="width:100%" rows="5" class='about' name="params" placeholder=""> Параметр1=Значение1;Параметр2=значение2;  </textarea>
             </div>
         </div>
-        <button href="javascript:void(0)" class="btn btn-success category-action" data-action="save" >Сохранить</button>
+        <button href="javascript:void(0)" class="btn btn-success category-action" data-action="save" data-categoryid="{$category.categoryID}" >Сохранить</button>
 
     </form>
 </div>
@@ -160,7 +160,6 @@ $(document).ready(function(){
             });
         }
     });
-
     $(function() {
 
         // Tags Input
